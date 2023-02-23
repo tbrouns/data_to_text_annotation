@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-3JYwY+wnNpZaJf9zWb7PHHzJ1/ND+2V/2DbeB/H33lRwF01tTQ2JZq3tGAWLSpdJRbrt/Q0x3FlCjgI+IEcYg==" crossorigin="anonymous" referrerpolicy="no-referrer" />-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<!--    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">-->
+    <title>Data-to-Text Annotation Tool</title>
+</head>
+<body>
+    <h1>Data-to-Text Annotation Tool</h1>
+    {% if current_frame < data_frames|length %}
+        {{ data_frames[current_frame].to_html()|safe }}
+        <form action="/submit" method="post">
+            <label for="data">Enter your data:</label>
+            <input type="text" id="data" name="data">
+
+            <form action="/" method="get">
+                <button type="submit" name="next" value="{{ current_frame + 1 }}" class="btn btn-primary">
+                  Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+
+        </form>
+    {% endif %}
+</body>
+</html>
