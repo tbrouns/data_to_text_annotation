@@ -13,8 +13,8 @@
     {% if current_frame < data_frames|length %}
         {{ data_frames[current_frame].to_html()|safe }}
         <form action="/submit" method="post">
-            <label for="data">Enter your data:</label>
-            <input type="text" id="data" name="data">
+            <label for="text">Enter your text:</label>
+            <input type="text" id="text" name="text">
 
             <form action="/" method="get">
                 <button type="submit" name="next" value="{{ current_frame + 1 }}" class="btn btn-primary">

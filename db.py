@@ -8,12 +8,12 @@ cursor = conn.cursor()
 
 # create a table in the database
 cursor.execute(
-    """DROP TABLE IF EXISTS weather_data"""
+    """DROP TABLE IF EXISTS data_table"""
 )
 cursor.execute(
-    """CREATE TABLE weather_data
+    """CREATE TABLE data_table
                   (id INTEGER,
-                   data TEXT NOT NULL,
+                   text TEXT NOT NULL,
                     UNIQUE (id) ON CONFLICT REPLACE)"""
 )
 

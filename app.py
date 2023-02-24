@@ -28,11 +28,12 @@ def index():
 def submit():
     global CURRENT_FRAME
     if request.method == "POST":
+        filename = os.path.basename(CSV_FILES[CURRENT_FRAME])
         conn = sqlite3.connect("data.db")
         c = conn.cursor()
         c.execute(
-            "INSERT INTO weather_data (id, data) VALUES (?, ?)",
-            (CURRENT_FRAME, request.form["data"]),
+            "INSERT INTO data_table (id, filename, text) VALUES (?, ?)",
+            (CURRENT_FRAME, filename, [request.form["text"]),
         )
         conn.commit()
         conn.close()
