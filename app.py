@@ -1,7 +1,8 @@
+import glob
 import os
 import sqlite3
-
 import pandas as pd
+
 from flask import Flask, render_template, request
 
 app = Flask(__name__, template_folder="template")
@@ -9,18 +10,40 @@ app = Flask(__name__, template_folder="template")
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Create data
+CSV_FILES = sorted(glob.glob("/home/tsn/Projects/buienradar/data/weather_data/csv_batch_02_28/*.csv"))
 CURRENT_FRAME = 0
-DATA_FRAMES = []
-for i in range(0, 3):
-    data = {"numbers": [i + 1, i + 2, i + 3], "text": ["hi", "hello", "goodbye"]}
-    df = pd.DataFrame(data)
-    DATA_FRAMES.append(df)
+
+def check_if_exists(filename):
+    conn = sqlite3.connect("data.db")
+    df = pd.read_sql_query("SELECT * from data_table", conn)
+    entry_exists = False
+    if filename in df["filename"].values:
+        entry_exists = True
+    # close the connection
+    conn.close()
+    return entry_exists
+
 
 @app.route("/")
 def index():
     global CURRENT_FRAME
+    entry_exists = True
+    while entry_exists:
+        filepath = CSV_FILES[CURRENT_FRAME]
+        filename = os.path.basename(filepath)
+        entry_exists = check_if_exists(filename)
+        if entry_exists:
+            CURRENT_FRAME += 1
+        max_index = len(CSV_FILES) - 1
+        if CURRENT_FRAME > max_index:
+            break
+    city_name = os.path.basename(filepath).split("_")[0]
+    df = pd.read_csv(filepath)
+    df.index.name = city_name
+    pd.set_option('display.max_colwidth', 1)
+    html = df.to_html()
     return render_template(
-        "index.html", data_frames=DATA_FRAMES, current_frame=CURRENT_FRAME
+        "index.html", data_frame=html
     )
 
 
@@ -32,14 +55,17 @@ def submit():
         conn = sqlite3.connect("data.db")
         c = conn.cursor()
         c.execute(
-            "INSERT INTO data_table (id, filename, text) VALUES (?, ?)",
-            (CURRENT_FRAME, filename, [request.form["text"]),
+            "INSERT INTO data_table (id, filename, text) VALUES (?, ?, ?)",
+            (CURRENT_FRAME, filename, request.form["text"]),
         )
         conn.commit()
         conn.close()
         CURRENT_FRAME += 1
-    max_index = len(DATA_FRAMES) - 1
+    max_index = len(CSV_FILES) - 1
     if CURRENT_FRAME > max_index:
         CURRENT_FRAME = max_index
     return index()
 
+
+if __name__ == "__main__":
+    app.run()

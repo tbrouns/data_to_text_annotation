@@ -5,7 +5,8 @@ import pandas as pd
 conn = sqlite3.connect("data.db")
 
 df = pd.read_sql_query("SELECT * from data_table", conn)
-print(df)
+print(df["filename"].values)
+print(df["text"].values)
 
 # close the connection
 conn.close()

@@ -13,6 +13,7 @@ cursor.execute(
 cursor.execute(
     """CREATE TABLE data_table
                   (id INTEGER,
+                  filename TEXT NOT NULL,
                    text TEXT NOT NULL,
                     UNIQUE (id) ON CONFLICT REPLACE)"""
 )
