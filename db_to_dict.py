@@ -34,5 +34,4 @@ for db_file_path in db_file_list:
     # close the connection
     conn.close()
 
-print(data_dict)
 save_pickle(os.path.join(data_dir, "train.pkl"), data_dict)
