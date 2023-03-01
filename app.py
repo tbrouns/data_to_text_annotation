@@ -1,8 +1,8 @@
 import glob
 import os
 import sqlite3
-import pandas as pd
 
+import pandas as pd
 from flask import Flask, render_template, request
 
 app = Flask(__name__, template_folder="template")
@@ -10,8 +10,11 @@ app = Flask(__name__, template_folder="template")
 MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Create data
-CSV_FILES = sorted(glob.glob("/home/tsn/Projects/buienradar/data/weather_data/csv_batch_02_28/*.csv"))
+CSV_FILES = sorted(
+    glob.glob("/home/tsn/Projects/buienradar/data/weather_data/csv_batch_03_01/*.csv")
+)
 CURRENT_FRAME = 0
+
 
 def check_if_exists(filename):
     conn = sqlite3.connect("data.db")
@@ -40,11 +43,9 @@ def index():
     city_name = os.path.basename(filepath).split("_")[0]
     df = pd.read_csv(filepath)
     df.index.name = city_name
-    pd.set_option('display.max_colwidth', 1)
+    pd.set_option("display.max_colwidth", 1)
     html = df.to_html()
-    return render_template(
-        "index.html", data_frame=html
-    )
+    return render_template("index.html", data_frame=html)
 
 
 @app.route("/submit", methods=["POST"])

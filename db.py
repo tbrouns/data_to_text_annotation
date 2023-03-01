@@ -7,9 +7,7 @@ conn = sqlite3.connect("data.db")
 cursor = conn.cursor()
 
 # create a table in the database
-cursor.execute(
-    """DROP TABLE IF EXISTS data_table"""
-)
+cursor.execute("""DROP TABLE IF EXISTS data_table""")
 cursor.execute(
     """CREATE TABLE data_table
                   (id INTEGER,
