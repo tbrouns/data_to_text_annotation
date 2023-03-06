@@ -11,7 +11,7 @@ MODULE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Create data
 CSV_FILES = sorted(
-    glob.glob("/home/tsn/Projects/buienradar/data/weather_data/csv_batch_03_01/*.csv")
+    glob.glob("/home/tsn/Projects/buienradar/weather_data/csv_batch_03_05/*.csv")
 )
 CURRENT_FRAME = 0
 
