@@ -24,10 +24,8 @@ for db_file_path in db_file_list:
     for filename, text in zip(df["filename"], df["text"]):
         csv_path = os.path.join(data_dir, database_name, filename)
         if os.path.isfile(csv_path):
-            df_table = pd.read_csv(csv_path)
-            data_dict["table"].append(df_table)
+            data_dict["filepath"].append(csv_path)
             data_dict["summary"].append(text)
-            data_dict["filename"].append(filename)
         else:
             print(f"{csv_path} not found!")
 
