@@ -9,10 +9,10 @@ from py_utils.utils_general import get_basename_no_ext
 
 # create a connection to the database
 
-data_dir = "/home/tsn/Projects/buienradar/data/weather_data/"
+data_dir = "/home/tsn/Projects/buienradar/weather_data/dataset/"
 db_file_list = glob.glob(os.path.join(data_dir, "*.db"))
 
-data_dict = {"table": [], "summary": [], "filename": []}
+data_dict = {"summary": [], "filepath": []}
 
 for db_file_path in db_file_list:
     conn = sqlite3.connect(db_file_path)
