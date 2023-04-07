@@ -4,7 +4,7 @@ Web-based annotation tool for creating text labels for CSV data
 
 These labels can, for example, be used to train a data-to-text NLP model
 
-### TODO: add screenshot here
+![screenshot](/images/data-to-text.png?raw=true)
 
 ## Set-up
 
